@@ -269,7 +269,8 @@ HTMLWidgets.widget({
           .select("text")
             .text(name(d))
             .style("fill", function (d) {
-              return idealTextColor( d.color ? d.color : color(leveltwo(d)[celltext]) );
+              //return idealTextColor( d.color ? d.color : color(leveltwo(d)[celltext]) );
+              return "rgb(0,0,0)";
             });
 
         grandparent
