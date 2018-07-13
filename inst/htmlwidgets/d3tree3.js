@@ -167,8 +167,16 @@ HTMLWidgets.widget({
     grandparent.append("text")
         .attr("x", 6)
         .attr("y", 6 - margin.grandparent)
-        .attr("dy", ".75em");
+        .attr("dy", ".75em")
+        .attr("class", "grandparent-name");
 
+    //Add Text Element to show click here
+    grandparent.append("text")
+        .attr("x",width)
+        .attr("text-anchor","end")
+        .attr("y", 6 - margin.grandparent)
+        .attr("dy", ".75em")
+        .attr("class","grandparent-info");
 
     // determines if white or black will be better contrasting color
     //  copied from
@@ -266,19 +274,28 @@ HTMLWidgets.widget({
           .on('mouseout', function(d) {
             hideSpan(d);
           })
-          .select("text")
+          .select(".grandparent-name")
             .text(name(d))
             .style("fill", function (d) {
               //return idealTextColor( d.color ? d.color : color(leveltwo(d)[celltext]) );
-              return "rgb(0,0,0)";
+              return "rgb(68,68,68)";
+            });
+
+        grandparent
+          .select(".grandparent-info")
+            .text("(Click Here to Go Back)")
+            .style("fill", function (d) {
+              //return idealTextColor( d.color ? d.color : color(leveltwo(d)[celltext]) );
+              return "rgb(68,68,68)";
             });
 
         grandparent
           .select("rect")
             .style("fill",function(d){
-              return (d) ?
-                ( (d.color) ? d.color : color(leveltwo(d)[celltext]) ) :
-                "#bbb";
+              // return (d) ?
+              //   ( (d.color) ? d.color : color(leveltwo(d)[celltext]) ) :
+              //   "#bbb";
+              return "rgb(255,255,255)"
             })
 
         var g1 = graphic.insert("g", ".grandparent")
