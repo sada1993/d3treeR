@@ -170,6 +170,13 @@ HTMLWidgets.widget({
         .attr("dy", ".75em")
         .attr("class", "grandparent-name");
 
+    grandparent.append("text")
+        .attr("x",width/2)
+        .attr("text-anchor","middle")
+        .attr("y", 6 - margin.grandparent)
+        .attr("dy", ".75em")
+        .attr("class","grandparent-hover-info");
+
     //Add Text Element to show click here
     grandparent.append("text")
         .attr("x",width)
@@ -308,7 +315,7 @@ HTMLWidgets.widget({
 
         g.filter(function(d) { return d._children; })
             .classed("children", true)
-            .on("click", transition);
+            .on("click", transition)
 
         g.selectAll(".child")
             .data(function(d) { return d._children || [d]; })
@@ -331,11 +338,20 @@ HTMLWidgets.widget({
           .append("title")
             .text(function(d) { return formatNumber(d[valueField]); });
 
-        //Changed .text to .html here!
         g.append("text")
             .attr("dy", ".75em")
             .text(function(d) { return d[celltext]; })
             .call(text);
+
+        g.on("mouseover",function(d){
+          d3.select(".grandparent-hover-info")
+            .text(d[celltext])
+        });
+
+        g.on("mouseout",function(d){
+          d3.select(".grandparent-hover-info")
+            .text("")
+        })
 
         function transition(d) {
           if (transitioning || !d) return;
