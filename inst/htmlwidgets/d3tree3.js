@@ -28,7 +28,7 @@ HTMLWidgets.widget({
     //  http://bost.ocks.org/mike/treemap/
     //  https://gist.github.com/zanarmstrong/76d263bd36f312cb0f9f
 
-    var margin = {top: 15, right: 0, bottom: 0, left: 0, grandparent: 20},
+    var margin = {top: 15, right: 0, bottom: 20, left: 0, grandparent: 20},
         width = el.getBoundingClientRect().width,
         height = el.getBoundingClientRect().height - margin.top - margin.bottom,
         formatNumber = d3.format(",d"),
@@ -155,7 +155,6 @@ HTMLWidgets.widget({
             return d[valueField];
         });
 
-
     var grandparent = graphic.append("g")
         .attr("class", "grandparent");
 
@@ -170,13 +169,6 @@ HTMLWidgets.widget({
         .attr("dy", ".75em")
         .attr("class", "grandparent-name");
 
-    grandparent.append("text")
-        .attr("x",width/2)
-        .attr("text-anchor","middle")
-        .attr("y", 6 - margin.grandparent)
-        .attr("dy", ".75em")
-        .attr("class","grandparent-hover-info");
-
     //Add Text Element to show click here
     grandparent.append("text")
         .attr("x",width)
@@ -184,6 +176,27 @@ HTMLWidgets.widget({
         .attr("y", 6 - margin.grandparent)
         .attr("dy", ".75em")
         .attr("class","grandparent-info");
+
+    var footer = graphic.append("g")
+        .attr("class","footer")
+
+    footer.append("rect")
+        .attr("y",height)
+        .attr("width",width)
+        .attr("height",margin.grandparent)
+        .style("fill",function(d){
+              // return (d) ?
+              //   ( (d.color) ? d.color : color(leveltwo(d)[celltext]) ) :
+              //   "#bbb";
+              return "rgb(255,255,255)"
+            })
+
+    footer.append("text")
+        .attr("x",width/2)
+        .attr("text-anchor","middle")
+        .attr("y", height)
+        .attr("dy", ".75em")
+        .attr("class","grandparent-hover-info");
 
     // determines if white or black will be better contrasting color
     //  copied from
