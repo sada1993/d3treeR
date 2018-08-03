@@ -28,7 +28,7 @@ HTMLWidgets.widget({
     //  http://bost.ocks.org/mike/treemap/
     //  https://gist.github.com/zanarmstrong/76d263bd36f312cb0f9f
 
-    var margin = {top: 15, right: 0, bottom: 0, left: 0, grandparent: 20},
+    var margin = {top: 15, right: 0, bottom: 20, left: 0, grandparent: 20},
         width = el.getBoundingClientRect().width,
         height = el.getBoundingClientRect().height - margin.top - margin.bottom,
         formatNumber = d3.format(",d"),
@@ -155,7 +155,6 @@ HTMLWidgets.widget({
             return d[valueField];
         });
 
-
     var grandparent = graphic.append("g")
         .attr("class", "grandparent");
 
@@ -177,6 +176,27 @@ HTMLWidgets.widget({
         .attr("y", 6 - margin.grandparent)
         .attr("dy", ".75em")
         .attr("class","grandparent-info");
+
+    var footer = graphic.append("g")
+        .attr("class","footer")
+
+    footer.append("rect")
+        .attr("y",height)
+        .attr("width",width)
+        .attr("height",margin.grandparent)
+        .style("fill",function(d){
+              // return (d) ?
+              //   ( (d.color) ? d.color : color(leveltwo(d)[celltext]) ) :
+              //   "#bbb";
+              return "rgb(255,255,255)"
+            })
+
+    footer.append("text")
+        .attr("x",width/2)
+        .attr("text-anchor","middle")
+        .attr("y", height)
+        .attr("dy", ".75em")
+        .attr("class","grandparent-hover-info");
 
     // determines if white or black will be better contrasting color
     //  copied from
@@ -308,7 +328,7 @@ HTMLWidgets.widget({
 
         g.filter(function(d) { return d._children; })
             .classed("children", true)
-            .on("click", transition);
+            .on("click", transition)
 
         g.selectAll(".child")
             .data(function(d) { return d._children || [d]; })
@@ -331,11 +351,20 @@ HTMLWidgets.widget({
           .append("title")
             .text(function(d) { return formatNumber(d[valueField]); });
 
-        //Changed .text to .html here!
         g.append("text")
             .attr("dy", ".75em")
             .text(function(d) { return d[celltext]; })
             .call(text);
+
+        g.on("mouseover",function(d){
+          d3.select(".grandparent-hover-info")
+            .text(d[celltext])
+        });
+
+        g.on("mouseout",function(d){
+          d3.select(".grandparent-hover-info")
+            .text("")
+        })
 
         function transition(d) {
           if (transitioning || !d) return;

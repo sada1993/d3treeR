@@ -5,13 +5,18 @@
 }
 
 /*Controls the font size on hover over*/
+
+/*
 .d3tree3 .depth .children:hover text {
   font-size: 1em;
 }
+*/
 
+/*
 .d3tree3 .depth g:hover text{
   font-size: 15px;
 }
+*/
 
 /*Controls the title name font size*/
 .d3tree3 .grandparent .grandparent-name {
